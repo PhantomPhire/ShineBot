@@ -1,0 +1,5 @@
+Welcome to the Oklahoma Melee Discord Channel! I'm your friendly, neighborhood ShineBot. 
+
+Please read the rules before posting, and if you can, please set your region in Oklahoma by using the setregion command. You can do so by typing "shine setregion <REGION>". If you use the command in this DM, you do not have to type shine. For more help on commands, type "help".
+
+Below is the list of valid regions:

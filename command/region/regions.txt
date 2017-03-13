@@ -1,0 +1,6 @@
+norman,
+tulsa,
+okc,
+edmond,
+stillwater,
+wastelands
