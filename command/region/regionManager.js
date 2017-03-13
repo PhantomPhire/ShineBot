@@ -13,7 +13,7 @@ function readIn() {
 //verifies the string submitted is actually a region
 module.exports.isRegion = function(input) {
     for(let i = 0; i < regions.length; i++) {
-        if(input === regions[i])
+        if(input === regions[i].toLowerCase())
             return true;
     }
 

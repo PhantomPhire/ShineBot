@@ -1,5 +1,4 @@
 const commando = require('discord.js-commando');
-const fs = require('fs');
 const regionManager = require(__dirname + '/regionManager.js');
 const getGuild = require(__dirname + '/../../shineBot_util/getGuild.js');
 
