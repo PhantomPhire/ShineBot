@@ -1,12 +1,13 @@
 const commando = require('discord.js-commando');
 const bot = new commando.Client({	commandPrefix: 'shine ' });
 const fs = require('fs');
-const regionManager = require(__dirname + '/command/region/regionManager.js');
-var welcomeMessage = '';
+const regionManager = require('./commands/region/regionManager.js');
+const regionlessRole = '291600398354219018';
+var welcomeMessage, token;
 
 bot.registry.registerGroup("region", "Region");
 bot.registry.registerDefaults();
-bot.registry.registerCommandsIn(__dirname + "/command");
+bot.registry.registerCommandsIn(__dirname + "/commands");
 
 
 bot.on('ready', () =>
@@ -16,30 +17,37 @@ bot.on('ready', () =>
 
 bot.on('guildMemberAdd', (member) => {
     member.user.send(welcomeMessage);
+
+    setTimeout(() => {
+        member.addRole(regionlessRole);
+    }, 4000);
 });
 
-fs.readFile(__dirname + "/../botLogins/shineBot.txt", (error, data) => {
-    if(error) {
-        console.log("Error on login file read");
-        return;
-    }
+token = fs.readFileSync(__dirname + "/../botLogins/shineBot.txt").toString();
 
-    bot.login(data.toString());
-});
+welcomeMessage = fs.readFileSync(__dirname + "/utilities/welcomeMessage.txt");
+let regions = regionManager.getRegionList();
 
-fs.readFile(__dirname + "/shineBot_util/welcomeMessage.txt", (error, data) => {
-    if(error) {
-        console.log("Error on welcome message file read");
-        return;
-    }
+for(let i = 0; i < regions.length; i++) {
+    welcomeMessage += '\n' + regions[i];
+} 
 
-    welcomeMessage = data.toString();
-    let regions = regionManager.getRegionList();
+function attemptLogin() {
+    bot.login(token);
 
-    for(let i = 0; i < regions.length; i++) {
-        welcomeMessage += '\n' + regions[i];
-    }
-});
+    setTimeout(() => {
+        if(bot.status != 0) {
+            bot.emit('attemptLogin');
+        }
+        else {
+            setTimeout(() => { 
+                var getGuild = require('./utilities/getGuild.js');
+                getGuild.giveClient(bot);
+            }, 5000);
+        }
+    }, 10000);
+}
 
-var getGuild = require(__dirname + '/shineBot_util/getGuild.js');
-getGuild.giveClient(bot);
+bot.on('disconnect', attemptLogin);
+bot.on('attemptLogin', attemptLogin);
+attemptLogin();

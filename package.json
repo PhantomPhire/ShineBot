@@ -1,0 +1,25 @@
+{
+  "name": "shinebot",
+  "version": "1.0.0",
+  "description": "A Discord bot tailored to the Oklahoma Melee Scene.",
+  "main": "shineBot.js",
+  "dependencies": {
+    "datastructures-js": "^3.0.5",
+    "discord-emoji": "^1.1.1",
+    "discord.js": "^11.0.0",
+    "discord.js-commando": "^0.8.5",
+    "express": "^4.15.2",
+    "ffmpeg.js": "^3.1.9001",
+    "node-gyp": "^3.5.0",
+    "opus.js": "^0.1.1",
+    "opusscript": "^0.0.2",
+    "random-js": "^1.0.8",
+    "socket.io": "^1.7.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Michael Oltmanns",
+  "license": "MIT"
+}
