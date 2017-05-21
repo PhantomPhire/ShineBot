@@ -10,27 +10,16 @@ function readIn() {
         regions = data.toString().split(',\r\n');
     });
 }
-module.exports.readIn = readIn;
+module.exports.readIn = readIn();
 
 //verifies the string submitted is actually a region
 module.exports.isRegion = function(input) {
-    for(let i = 0; i < regions.length; i++) {
-        if(input === regions[i].toLowerCase())
-            return true;
-    }
-
-    return false;
+    return (regions.find( name => name.toLowerCase() === input ) !== undefined);
 }
 
 //gets role object from plaintext region submission
 module.exports.getRole = function(input) {
-    var role = null;
-    var roles = getGuild.get().roles.array();
-
-    for(let i = 0; i < roles.length; i++) {
-        if(roles[i].name.toLowerCase() === input)
-            return roles[i];
-    }
+    return getGuild.get().roles.find(r => r.name.toLowerCase() === input);
 }
 
 //gives region list to anything asking for it

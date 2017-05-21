@@ -13,63 +13,46 @@ class setRegion extends commando.Command {
         });
     }
 
-    async run(message, args) {
-        var userArgs = message.parseArgs(args, 1);
-        userArgs = userArgs.split(' ');
+    async run(msg, args) {
+        var userArgs = args.split(' ');
 
         var region = userArgs[0];
 
-        if(region == null || region == undefined) {
-            message.reply('Please provide a region as a parameter.');
+        if(region === undefined) {
+            msg.reply('Please provide a region as a parameter.');
             return;
         }
         else
             region = region.toLowerCase();
 
         if(!regionManager.isRegion(region)) {
-            message.reply(region + ' is not a valid region');
+            msg.reply(region + ' is not a valid region');
             return;
         }
 
-        var guild = null;
+        var guild = undefined;
 
-        if(message.guild == null) {
+        if(msg.guild == null) {
             guild = getGuild.get();
         }
         else {
-            guild = message.guild;
+            guild = msg.guild;
         }
 
         var roleToSet = regionManager.getRole(region);
-        guild.fetchMember(message.author)
+        guild.fetchMember(msg.author)
         .then((member) => {
-            setMemberRoles(member, roleToSet, message);
+            var roles = member.roles.filterArray(r => (regionManager.isRegion(r.name.toLowerCase()) || r.name === 'Regionless'));
+
+            for(let i = 0; i < roles.length; i++) {
+                member.removeRole(roles[i].id)
+                .catch(console.log);
+            }
+
+            member.addRole(roleToSet.id)
+            .then(msg.reply('your region is now set to ' + roleToSet.name + '.'));
         });
     }
-}
-
-//Finds old region, removes, then adds new one
-function setMemberRoles(member, roleToSet, message) {
-    var roles = member.roles.array();
-
-    for(let i = 0; i < roles.length; i++) {
-        if(regionManager.isRegion(roles[i].name.toLowerCase()))
-            member.removeRole(roles[i].id)
-            .catch(console.error);
-        else if(roles[i].name == 'Regionless') {
-            member.removeRole(roles[i].id)
-            .catch(console.error);
-        }
-    }
-
-    member.addRole(roleToSet.id)
-    .then(message.reply('your region is now set to ' + roleToSet.name + '.'));
-}
-
-function error(e)
-{
-	console.log(e.stack);
-	process.exit(0);
 }
 
 module.exports = setRegion;

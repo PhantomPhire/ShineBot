@@ -6,6 +6,7 @@ const regionlessRole = '291600398354219018';
 var welcomeMessage, token;
 
 bot.registry.registerGroup("region", "Region");
+bot.registry.registerGroup("misc", "Misc");
 bot.registry.registerDefaults();
 bot.registry.registerCommandsIn(__dirname + "/commands");
 
@@ -33,21 +34,44 @@ for(let i = 0; i < regions.length; i++) {
 } 
 
 function attemptLogin() {
-    bot.login(token);
+    console.log('attempting login');
+    bot.login(token).catch((err) => {
+        console.log('Login Failed');
+        console.log(err);
+    });
 
     setTimeout(() => {
-        if(bot.status != 0) {
+        if(bot.status == 5 || bot.status == 3) {
+            console.log('login attempt timed out');
+            console.log('Status: ' + bot.status);
             bot.emit('attemptLogin');
         }
+        else if(bot.status != 0) {
+            bot.emit('WaitAttempt');
+        }
         else {
+            console.log('login successful');
             setTimeout(() => { 
                 var getGuild = require('./utilities/getGuild.js');
-                getGuild.giveClient(bot);
+                getGuild.injectClient(bot);
             }, 5000);
         }
     }, 10000);
 }
 
-bot.on('disconnect', attemptLogin);
+function waitThenLogin() {
+    setTimeout(() => {
+        if(bot.status == 5 || bot.status == 3) {
+            console.log('Waited, status: ' + bot.status);
+            attemptLogin();
+        }
+        else if(bot.status != 0) {
+            bot.emit('WaitAttempt');
+        }
+    }, 10000);
+}
+
+bot.on('disconnect', waitThenLogin);
+bot.on('WaitAttempt', waitThenLogin);
 bot.on('attemptLogin', attemptLogin);
 attemptLogin();

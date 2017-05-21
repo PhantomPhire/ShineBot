@@ -1,12 +1,12 @@
 /*
 The reason for the existence of this file is to ensure that the bot always has
  access to the guild this bot is intended for, even when operating outside of 
- the guild (such as a DM). 
+ the guild (such as in a DM). 
 */
 const fs = require('fs');
 var guild = undefined;
 
-module.exports.giveClient = function(clientIn) {
+module.exports.injectClient = function(clientIn) {
     fs.readFile(__dirname + "/guild.txt", (error, data) => {
     if(error) {
         console.log("Error on login file read");

@@ -12,13 +12,13 @@ class addRegion extends commando.Command {
         });
     }
 
-    hasPermission(message) {
-        if(!message.guild) 
-            return message.author.id === this.client.options.owner;
-		return message.member.hasPermission('ADMINISTRATOR');
+    hasPermission(msg) {
+        if(!msg.guild) 
+            return msg.author.id === this.client.options.owner;
+		return msg.member.hasPermission('ADMINISTRATOR');
 	}
 
-    async run(message, args) {
+    async run(msg, args) {
         fs.appendFile(__dirname + '/regions.txt', ',\r\n' + args, (err) => {
             if (err)
                 throw err;
@@ -26,7 +26,7 @@ class addRegion extends commando.Command {
                 regionManager.readIn();
         });
 
-        message.say('Region added');
+        msg.say('Region added');
     }
 }
 
