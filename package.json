@@ -16,7 +16,9 @@
     "random-js": "^1.0.8",
     "socket.io": "^1.7.3"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "@types/node": "^7.0.22"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

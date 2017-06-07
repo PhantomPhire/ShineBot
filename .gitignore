@@ -1,3 +1,6 @@
 node_modules/
-.vscode/
 core
+config.json
+npm-debug.log
+dist
+quarantine
