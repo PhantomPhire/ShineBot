@@ -1,5 +1,5 @@
 import {Command, CommandoClient, CommandMessage} from "discord.js-commando";
-import {Message} from "discord.js";
+import {GuildMember, Message} from "discord.js";
 import getGuild = require("../../guild");
 
 const netplayId = "312278623887294484";
@@ -21,38 +21,43 @@ export class Netplay extends Command {
         args = args.toLowerCase().trim();
         guild!.fetchMember(msg.author)
         .then((member) => {
-            var hasRole;
-            if(member.roles.get(netplayId) != undefined) {
-                hasRole = true;
-            }
-            else {
-                hasRole = false;
-            }
+            let hasRole = member.roles.has(netplayId);
 
-
-            if(args === "on") {
-                if(!hasRole) {
-                    member.addRole(netplayId);
-                    msg.reply("Netplay role added.", {});
-                }
-            }
-            else if(args === "off" && hasRole) {
-                if(hasRole) {
-                    member.removeRole(netplayId);
-                    msg.reply("Netplay role removed.", {});
-                }
-            }
-            else {
-                if(hasRole) {
-                    member.removeRole(netplayId);
-                    msg.reply("Netplay role removed.", {});
+            if (args === "on") {
+                if (!hasRole) {
+                    this.addNetplay(member, msg);
                 }
                 else {
-                    member.addRole(netplayId);
-                    msg.reply("Netplay role added.", {});
+                    msg.reply("Netplay role is already set.", {});
+                }
+            }
+            else if (args === "off") {
+                if (hasRole) {
+                    this.removeNetplay(member, msg);
+                }
+                else {
+                    msg.reply("Netplay role is already unset.", {});
+                }
+            }
+            else {
+                if (hasRole) {
+                    this.addNetplay(member, msg);
+                }
+                else {
+                    this.removeNetplay(member, msg);
                 }
             }
         });
+    }
+
+    private addNetplay(member: GuildMember, msg: CommandMessage): void {
+        member.addRole(netplayId);
+        msg.reply("Netplay role added.", {});
+    }
+
+    private removeNetplay(member: GuildMember, msg: CommandMessage): void {
+        member.removeRole(netplayId);
+        msg.reply("Netplay role removed.", {});
     }
 }
 module.exports = Netplay;

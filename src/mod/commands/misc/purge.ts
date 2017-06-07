@@ -12,10 +12,10 @@ export class Purge extends Command {
     }
 
     hasPermission(msg: CommandMessage): boolean {
-		if(!msg.guild) 
+        if (!msg.guild)
             return false;
-		return msg.member.hasPermission("ADMINISTRATOR");
-	}
+        return msg.member.hasPermission("ADMINISTRATOR");
+    }
 
     async run(msg: CommandMessage, args: string, fromPattern: boolean): Promise<Message | Message[] | void> {
         try {
@@ -24,13 +24,13 @@ export class Purge extends Command {
 
             channel.fetchMessages({ limit: msgNumber, before: msg.id })
             .then( (messages: Collection<string, Message>) => {
-                messages.forEach( (value, key, map) => { if(value.deletable) value.delete(); });
+                messages.forEach( (value, key, map) => { if (value.deletable) value.delete(); });
                 msg.delete();
-            });        
+            });
         }
-        catch(e) {
+        catch (e) {
             console.log(e);
-            return msg.say("Please format your arguments correctly.", {})
+            return msg.say("Please format your arguments correctly.", {});
         }
     }
 }

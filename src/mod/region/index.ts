@@ -2,9 +2,9 @@ import {Role} from "discord.js";
 import fs = require("fs");
 import getGuild = require("../guild");
 
-var regions: string[];
+let regions: string[];
 readIn();
- 
+
 export function readIn() {
     regions = [];
     fs.readFile(__dirname + "/../../../assets/regions.txt", (error: Error, data: Buffer) => {

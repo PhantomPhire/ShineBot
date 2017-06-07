@@ -17,7 +17,7 @@ export class GetRegion extends Command {
         let regions = regionManager.getRegionList();
         let regionPrint = "";
 
-        for(let i = 0; i < regions.length; i++) {
+        for (let i = 0; i < regions.length; i++) {
             regionPrint += "\n" + regions[i];
         }
 

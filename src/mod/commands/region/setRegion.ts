@@ -15,35 +15,35 @@ export class SetRegion extends Command {
     }
 
     async run(msg: CommandMessage, args: string, fromPattern: boolean): Promise<Message | Message[] | void> {
-        var userArgs = args.split(" ");
+        let userArgs = args.split(" ");
 
-        var region = userArgs[0];
+        let region = userArgs[0];
 
-        if(region === undefined) {
+        if (region === undefined) {
             return msg.reply("Please provide a region as a parameter.", {});
         }
         else
             region = region.toLowerCase();
 
-        if(!regionManager.isRegion(region)) {
+        if (!regionManager.isRegion(region)) {
             return msg.reply(region + " is not a valid region", {});
         }
 
-        var guild = undefined;
+        let guild = undefined;
 
-        if(msg.guild == null) {
+        if (msg.guild == null) {
             guild = getGuild.getGuild();
         }
         else {
             guild = msg.guild;
         }
 
-        var roleToSet = regionManager.getRole(region);
+        let roleToSet = regionManager.getRole(region);
         guild!.fetchMember(msg.author)
         .then((member) => {
-            var roles = member.roles.filterArray(r => (regionManager.isRegion(r.name.toLowerCase()) || r.name === "Regionless"));
+            let roles = member.roles.filterArray(r => (regionManager.isRegion(r.name.toLowerCase()) || r.name === "Regionless"));
 
-            for(let i = 0; i < roles.length; i++) {
+            for (let i = 0; i < roles.length; i++) {
                 member.removeRole(roles[i].id)
                 .catch(console.log);
             }

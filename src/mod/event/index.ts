@@ -5,13 +5,13 @@ import regionManager = require("../region");
 
 const regionlessRole = "291600398354219018";
 
-var bot: CommandoClient;
-var welcomeMessage = fs.readFileSync(__dirname + "/../../../assets/welcomeMessage.txt", "utf8");
+let bot: CommandoClient;
+let welcomeMessage = fs.readFileSync(__dirname + "/../../../assets/welcomeMessage.txt", "utf8");
 let regions = regionManager.getRegionList();
 
-for(let i = 0; i < regions.length; i++) {
+for (let i = 0; i < regions.length; i++) {
     welcomeMessage += "\n" + regions[i];
-} 
+}
 
 export function injectBot(injectedBot: CommandoClient) {
     bot = injectedBot;

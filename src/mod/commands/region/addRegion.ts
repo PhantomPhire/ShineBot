@@ -14,10 +14,10 @@ export class AddRegion extends Command {
     }
 
     hasPermission(msg: CommandMessage): boolean {
-		if(!msg.guild) 
+        if (!msg.guild)
             return msg.author.id === this.client.options.owner;
-		return msg.member.hasPermission("ADMINISTRATOR");
-	}
+        return msg.member.hasPermission("ADMINISTRATOR");
+    }
 
     async run(msg: CommandMessage, args: string, fromPattern: boolean): Promise<Message | Message[] | void> {
         fs.appendFile(__dirname + "/regions.txt", ",\r\n" + args, (err) => {

@@ -1,7 +1,7 @@
 import {CommandoClient} from "discord.js-commando";
 
-var bot: CommandoClient;
-var token: string;
+let bot: CommandoClient;
+let token: string;
 
 export function injectBot(injectedBot: CommandoClient, tokenIn: string) {
     token = tokenIn;
@@ -20,12 +20,12 @@ function attemptLogin() {
     });
 
     setTimeout(() => {
-        if(bot.status == 5 || bot.status == 3) {
+        if (bot.status === 5 || bot.status === 3) {
             console.log("login attempt timed out");
             console.log("Status: " + bot.status);
             bot.emit("attemptLogin");
         }
-        else if(bot.status != 0) {
+        else if (bot.status !== 0) {
             console.log("Status: " + bot.status + "\nStill waiting");
             bot.emit("WaitAttempt");
         }
@@ -37,11 +37,11 @@ function attemptLogin() {
 
 function waitThenLogin() {
     setTimeout(() => {
-        if(bot.status == 5 || bot.status == 3) {
+        if (bot.status === 5 || bot.status === 3) {
             console.log("Waited, status: " + bot.status);
             attemptLogin();
         }
-        else if(bot.status != 0) {
+        else if (bot.status !== 0) {
             console.log("Status: " + bot.status + "\nStill waiting");
             bot.emit("WaitAttempt");
         }
