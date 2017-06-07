@@ -13,7 +13,6 @@ export class GetRegion extends Command {
         });
     }
 
-
     async run(msg: CommandMessage, args: string, fromPattern: boolean): Promise<Message | Message[] | void> {
         let regions = regionManager.getRegionList();
         let regionPrint = "";

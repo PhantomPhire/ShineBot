@@ -24,7 +24,7 @@ export class Purge extends Command {
 
             channel.fetchMessages({ limit: msgNumber, before: msg.id })
             .then( (messages: Collection<string, Message>) => {
-                messages.forEach( (value, key, message) => { value.delete(); });
+                messages.forEach( (value, key, map) => { if(value.deletable) value.delete(); });
                 msg.delete();
             });        
         }

@@ -15,7 +15,7 @@ export class AddRegion extends Command {
 
     hasPermission(msg: CommandMessage): boolean {
 		if(!msg.guild) 
-            return msg.client.isOwner(msg.author);
+            return msg.author.id === this.client.options.owner;
 		return msg.member.hasPermission("ADMINISTRATOR");
 	}
 
