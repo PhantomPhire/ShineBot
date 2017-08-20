@@ -1,7 +1,7 @@
 import {Message} from "discord.js";
 import {CommandoClient} from "discord.js-commando";
 import fs = require("fs");
-import regionManager = require("../region");
+import regionManager = require("../commands/region/regionManager");
 import ServedGuild = require("../voice/ServedGuild");
 
 const regionlessRole = "291600398354219018";
