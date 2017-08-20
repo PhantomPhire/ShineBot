@@ -9,6 +9,8 @@ event.injectBot(bot);
 getGuild.injectClient(bot);
 loginManager.injectBot(bot, (<any>config).token);
 bot.registry.registerGroup("region", "Region");
+bot.registry.registerGroup("sounds", "Sounds");
+bot.registry.registerGroup("melee", "Melee");
 bot.registry.registerGroup("misc", "Misc");
 bot.registry.registerDefaults();
 bot.registry.registerCommandsIn(__dirname + "/mod/commands");

@@ -1,6 +1,6 @@
 import {Command, CommandoClient, CommandMessage} from "discord.js-commando";
-import {GuildMember, Message} from "discord.js";
-import regionManager = require("../../region");
+import {GuildMember, Message, Role} from "discord.js";
+import regionManager = require("./regionManager");
 import getGuild = require("../../guild");
 
 export class SetRegion extends Command {
@@ -15,9 +15,7 @@ export class SetRegion extends Command {
     }
 
     async run(msg: CommandMessage, args: string, fromPattern: boolean): Promise<Message | Message[] | void> {
-        let userArgs = args.split(" ");
-
-        let region = userArgs[0];
+        let region = args.trim();
 
         if (region === undefined) {
             return msg.reply("Please provide a region as a parameter.", {});
@@ -38,18 +36,18 @@ export class SetRegion extends Command {
             guild = msg.guild;
         }
 
-        let roleToSet = regionManager.getRole(region);
+        let roleToSet = guild!.roles.find( (r: Role) => r.name.toLowerCase() === region);
         guild!.fetchMember(msg.author)
         .then((member) => {
-            let roles = member.roles.filterArray(r => (regionManager.isRegion(r.name.toLowerCase()) || r.name === "Regionless"));
+            let roles = member.roles.filterArray( (r: Role) => (regionManager.isRegion(r.name.toLowerCase()) || r.name === "Regionless"));
 
             for (let i = 0; i < roles.length; i++) {
                 member.removeRole(roles[i].id)
-                .catch(console.log);
+                .catch(console.error);
             }
 
             member.addRole(roleToSet.id)
-            .then((member: GuildMember) => msg.reply("your region is now set to " + roleToSet.name + ".", {}).catch(console.log));
+            .then((member: GuildMember) => msg.reply("your region is now set to " + roleToSet.name + ".", {}).catch(console.error));
         });
     }
 }

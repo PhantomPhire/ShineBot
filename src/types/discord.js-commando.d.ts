@@ -1,7 +1,7 @@
 //Grabbed this from the djs-commando repo, hosting here until distribution is updated with this
 
 declare module 'discord.js-commando' {
-	import { Channel, Client, ClientOptions, Collection, Emoji, Guild, GuildChannel, GuildMember, GuildResolvable, Message, MessageAttachment, MessageEmbed, MessageOptions, MessageReaction, ReactionEmoji, RichEmbed, Role, StringResolvable, User, UserResolvable, Webhook } from 'discord.js';
+	import { Channel, Client, ClientOptions, Collection, Emoji, Guild, GuildChannel, GuildMember, GuildResolvable, Message, MessageAttachment, MessageEmbed, MessageMentions, MessageOptions, MessageReaction, ReactionEmoji, RichEmbed, Role, StringResolvable, User, UserResolvable, Webhook } from 'discord.js';
 
 	export const version: string;
 
@@ -137,7 +137,7 @@ declare module 'discord.js-commando' {
 		public guild: Guild;
 		public id: string;
 		public member: GuildMember;
-		public mentions: {};
+		public mentions: MessageMentions;
 		public message: Message;
 		public nonce: string;
 		public patternMatches: string[];
@@ -172,11 +172,11 @@ declare module 'discord.js-commando' {
 		public static parseArgs(argString: string, argCount?: number, allowSingleQuote?: boolean): string[];
 		public pin(): Promise<Message>
 		public react(emoji: string | Emoji | ReactionEmoji): Promise<MessageReaction>;
-		public reply(content: StringResolvable, options: MessageOptions): Promise<Message | Message[]>;
+		public reply(content: StringResolvable, options?: MessageOptions): Promise<Message | Message[]>;
 		public replyEmbed(embed: RichEmbed | {}, content?: StringResolvable, options?: MessageOptions): Promise<Message | Message[]>;
 		private respond(options: {}): Message | Message[];
 		public run(): Promise<Message | Message[]>;
-		public say(content: StringResolvable, options: MessageOptions): Promise<Message | Message[]>;
+		public say(content: StringResolvable, options?: MessageOptions): Promise<Message | Message[]>;
 		public unpin(): Promise<Message>;
 		public usage(argString?: string, prefix?: string, user?: User): string;
 	}

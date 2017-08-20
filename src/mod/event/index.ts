@@ -2,6 +2,7 @@ import {Message} from "discord.js";
 import {CommandoClient} from "discord.js-commando";
 import fs = require("fs");
 import regionManager = require("../region");
+import ServedGuild = require("../voice/ServedGuild");
 
 const regionlessRole = "291600398354219018";
 
@@ -18,6 +19,7 @@ export function injectBot(injectedBot: CommandoClient) {
 
     bot.on("ready", () => {
         bot.user.setGame("Shining until you start crying.");
+        ServedGuild.loadState(bot);
     });
 
     bot.on("guildMemberAdd", (member) => {
