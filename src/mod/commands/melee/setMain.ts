@@ -21,8 +21,8 @@ export class SetMain extends Command {
         if (character === undefined) {
             return msg.reply("Please provide a Melee character as a parameter.");
         }
-        else
-            character = character.toLowerCase();
+
+        character = character.toLowerCase();
 
         if (!meleeManager.isMain(character)) {
             return msg.reply(character + " is not a valid Melee character");
@@ -37,7 +37,16 @@ export class SetMain extends Command {
             guild = msg.guild;
         }
 
-        let roleToSet = guild!.roles.find((r) => r.name.toLowerCase() === character);
+        let possibleRoles = guild!.roles.filterArray( (r: Role) => (r.name.toLowerCase() === character && meleeManager.isMain(r.name)));
+
+        if (possibleRoles.length < 1)
+            possibleRoles = guild!.roles.filterArray( (r: Role) => (r.name.toLowerCase().includes(character) && meleeManager.isMain(r.name)));
+
+        if (possibleRoles.length > 1) {
+            return msg.say("Ambiguous input");
+        }
+
+        let roleToSet = possibleRoles[0];
         guild!.fetchMember(msg.author)
         .then((member) => {
             let redundantRole = member.roles.get(roleToSet.id);
