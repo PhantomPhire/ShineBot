@@ -16,13 +16,11 @@ export class SetMain extends Command {
     }
 
     async run(msg: CommandMessage, args: string, fromPattern: boolean): Promise<Message | Message[] | void> {
-        let character = args.trim();
+        let character = meleeManager.formatString(args).trim();
 
-        if (character === undefined) {
-            return msg.reply("Please provide a Melee character as a parameter.");
+        if (character === undefined || character === "") {
+            return msg.reply("please provide a Melee character as a parameter.");
         }
-
-        character = character.toLowerCase();
 
         if (!meleeManager.isMain(character)) {
             return msg.reply(character + " is not a valid Melee character");
@@ -37,10 +35,10 @@ export class SetMain extends Command {
             guild = msg.guild;
         }
 
-        let possibleRoles = guild!.roles.filterArray( (r: Role) => (r.name.toLowerCase() === character && meleeManager.isMain(r.name)));
+        let possibleRoles = guild!.roles.filterArray( (r: Role) => (meleeManager.formatString(r.name) === character && meleeManager.isMain(r.name)));
 
         if (possibleRoles.length < 1)
-            possibleRoles = guild!.roles.filterArray( (r: Role) => (r.name.toLowerCase().includes(character) && meleeManager.isMain(r.name)));
+            possibleRoles = guild!.roles.filterArray( (r: Role) => (meleeManager.formatString(r.name).includes(character) && meleeManager.isMain(r.name)));
 
         if (possibleRoles.length > 1) {
             return msg.say("Ambiguous input");
@@ -53,11 +51,11 @@ export class SetMain extends Command {
 
             if (redundantRole === undefined) {
                 member.addRole(roleToSet.id)
-                .then((member: GuildMember) => msg.reply("You are now maining " + roleToSet.name + ".").catch(console.error));
+                .then((member: GuildMember) => msg.reply("you are now maining " + roleToSet.name + ".").catch(console.error));
             }
             else {
                 member.removeRole(redundantRole)
-                .then((member: GuildMember) => msg.reply("You are no longer maining " + roleToSet.name + ".").catch(console.error))
+                .then((member: GuildMember) => msg.reply("you are no longer maining " + roleToSet.name + ".").catch(console.error))
                 .catch(console.error);
             }
         });

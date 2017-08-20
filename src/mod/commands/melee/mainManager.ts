@@ -9,9 +9,13 @@ export function readIn() {
 }
 
 export function isMain(input: string): boolean {
-    return (mains.find( name => name.toLowerCase().includes(input.toLowerCase()) ) !== undefined);
+    return (mains.find( name => formatString(name).includes(formatString(input)) ) !== undefined);
 }
 
 export function getMainList(): string[] {
     return mains;
+}
+
+export function formatString(input: string): string {
+    return input.toLowerCase().replace(/\./g, "");
 }
