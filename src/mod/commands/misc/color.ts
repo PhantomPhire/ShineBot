@@ -23,6 +23,7 @@ export class Color extends Command {
             for(let i = 1; i <= 10; i++)
             {
                 let role = msg.guild.roles.find("name", "PR #" + i)
+                if(role != null && msg.member.roles.has(role.id))
                 {
                     msg.guild.roles.get(role.id).setColor(args);
                     return;
