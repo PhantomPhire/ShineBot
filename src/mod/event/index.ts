@@ -29,4 +29,27 @@ export function injectBot(injectedBot: CommandoClient) {
             member.addRole(regionlessRole);
         }, 4000);
     });
+
+    // Naughty word parsing
+    // DISCLAIMER: The words depicted below are offensive. The purpose of this
+    // section of code is to time anyone who uses said words out.
+    bot.on("message", (message: Message) => {
+        if (message.member == null) {
+            return;
+        }
+
+        let msg = message.content.toLowerCase();
+
+        if (msg.indexOf("nig" + "ger") > -1) {
+            message.member.ban({
+                days: 1,
+                reason: "Using the n word"
+            }).catch(console.log);
+            message.delete().catch(console.log);
+        }
+        else if (msg.indexOf("nig" + "ga") > -1) {
+            message.member.addRole("325090806048358400").catch(console.log);
+            message.delete().catch(console.log);
+        }
+    });
 }
