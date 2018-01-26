@@ -14,7 +14,6 @@ export class Color extends Command {
     hasPermission(msg: CommandMessage): boolean {
         if (!msg.guild)
             return false;
-        //return msg.member.hasPermission("ADMINISTRATOR");
         return msg.member.roles.has(msg.guild.roles.find("name", "Power Ranked").id);
     }
 
