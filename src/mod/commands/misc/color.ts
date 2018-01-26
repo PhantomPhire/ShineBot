@@ -1,5 +1,6 @@
 import {Command, CommandoClient, CommandMessage} from "discord.js-commando";
 import {Collection, Message, TextChannel} from "discord.js";
+import getGuild = require("../../guild");
 
 export class Color extends Command {
     constructor(client: CommandoClient) {
@@ -12,19 +13,23 @@ export class Color extends Command {
     }
 
     hasPermission(msg: CommandMessage): boolean {
-        if (!msg.guild)
-            return false;
-        return msg.member.roles.has(msg.guild.roles.find("name", "Power Ranked").id);
+        let guild = msg.guild;
+        if (msg.guild == null)
+            guild = getGuild.getGuild();
+        return guild.member(msg.author).roles.has(guild.roles.find("name", "Power Ranked").id);
     }
 
     async run(msg: CommandMessage, args: string, fromPattern: boolean): Promise<Message | Message[] | void> {
         try {
+            let guild = msg.guild;
+            if (msg.guild == null)
+                guild = getGuild.getGuild();
             for(let i = 1; i <= 10; i++)
             {
-                let role = msg.guild.roles.find("name", "PR #" + i)
-                if(role != null && msg.member.roles.has(role.id))
+                let role = guild.roles.find("name", "PR #" + i)
+                if(role != null && guild.member(msg.author).roles.has(role.id))
                 {
-                    msg.guild.roles.get(role.id).setColor(args);
+                    guild.roles.get(role.id).setColor(args);
                     return;
                 }
             }
