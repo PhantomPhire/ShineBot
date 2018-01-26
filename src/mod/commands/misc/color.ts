@@ -31,7 +31,7 @@ export class Color extends Command {
         }
         catch (e) {
             console.log(e);
-            return msg.say("Please format your arguments correctly.", {});
+            return msg.say("Please format your arguments correctly.\nExample: Shine Color #94FF23", {});
         }
     }
 }
