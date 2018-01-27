@@ -19,7 +19,7 @@ export class YouTubeSound extends Sound {
 
     public play(connection: VoiceConnection): Promise<StreamDispatcher> {
         return new Promise( (resolve, reject) => {
-            if(connection === undefined)
+            if (connection === undefined)
                 reject("Voice connection undefined in YouTubeSound.");
             const stream = ytdl(this._url, { filter: "audioonly" })
             .on("error", (error: Error) => {

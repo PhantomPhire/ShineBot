@@ -9,14 +9,14 @@ export function findMemberDisplayName(input: string, guild: Guild): GuildMember 
 }
 
 export function findMemberName(input: string, guild: Guild): GuildMember | undefined {
-    var result = findMemberUsername(input, guild);
+    let result = findMemberUsername(input, guild);
 
-    if(result != undefined) {
+    if (result != undefined) {
         return result;
     }
 
-    //redundant in cases where user does not have nickname, but covers all bases
-    return findMemberDisplayName(input,guild);
+    // Redundant in cases where user does not have nickname, but covers all bases
+    return findMemberDisplayName(input, guild);
 }
 
 export function findMemberUsernamePartial(input: string, guild: Guild): GuildMember | undefined {
@@ -28,14 +28,14 @@ export function findMemberDisplayNamePartial(input: string, guild: Guild): Guild
 }
 
 export function findMemberNamePartial(input: string, guild: Guild): GuildMember | undefined {
-    var result = findMemberUsernamePartial(input, guild);
+    let result = findMemberUsernamePartial(input, guild);
 
-    if(result != undefined) {
+    if (result != undefined) {
         return result;
     }
 
-    //redundant in cases where user does not have nickname, but covers all bases
-    return findMemberDisplayNamePartial(input,guild);
+    // Redundant in cases where user does not have nickname, but covers all bases
+    return findMemberDisplayNamePartial(input, guild);
 }
 
 export function findVoiceChannel(input: string, guild: Guild): VoiceChannel | undefined {

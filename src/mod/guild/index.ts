@@ -6,7 +6,7 @@ The reason for the existence of this file is to ensure that the bot always has
 import {Client, Guild} from "discord.js";
 import fs = require("fs");
 
-const id = "289489728615743488";//"405976990068375552";
+const id = "289489728615743488";
 let client: Client;
 
 export function injectClient(clientIn: Client) {

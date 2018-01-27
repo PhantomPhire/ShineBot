@@ -8,17 +8,38 @@ import {ServedGuildSaveState} from "./ServedGuildSaveState";
 const musicalEmoji = " :musical_note: ";
 
 export class ServedGuild {
+    private static guildMap: Map<string, ServedGuild> = new Map();
+
     private _id: string;
     private _manager: GuildVoiceStateManager;
     private _queue: Queue<Sound>;
-
-    private static guildMap: Map<string, ServedGuild> = new Map();
+    private _boundVoiceChannel?: VoiceChannel;
+    private _feedbackChannel?: TextChannel;
 
     constructor(client: Client, id: string) {
         this._id = id;
         this._manager = new GuildVoiceStateManager(client);
         this._queue = new Queue<Sound>();
         this._manager.on("next", () => { this.next(); });
+    }
+
+    public static GetServerdGuild(client: Client, id: string): ServedGuild {
+        if (!ServedGuild.guildMap.has(id)) {
+            ServedGuild.guildMap.set(id, new ServedGuild(client, id));
+        }
+
+        return ServedGuild.guildMap.get(id)!;
+    }
+
+    public static LoadSaveState(state: ServedGuildSaveState, client: Client) {
+        if (!ServedGuild.guildMap.has(state.Id)) {
+            let sGuild = new ServedGuild(client, state.Id);
+            if (state.BoundVoiceChannelId !== undefined)
+                sGuild.BoundVoiceChannel = client.channels.get(state.BoundVoiceChannelId) as VoiceChannel;
+            if (state.FeedbackChannelId !== undefined)
+                sGuild.FeedbackChannel = client.channels.get(state.FeedbackChannelId) as TextChannel;
+            ServedGuild.guildMap.set(state.Id, sGuild);
+        }
     }
 
     public Add(sound: Sound) {
@@ -64,33 +85,33 @@ export class ServedGuild {
                 this._manager.play(sound!)
                 .then( (playMessage) => {
                     this.sendFeedback(playMessage);
-                }).catch( (reason: string) => { this.sendFeedback(reason) });
-            }).catch( (reason: string) => { this.sendFeedback(reason) });;
+                }).catch( (reason: string) => { this.sendFeedback(reason); });
+            }).catch( (reason: string) => { this.sendFeedback(reason); });
         }
 
         else {
             this._manager.play(sound!)
             .then( (playMessage) => {
                 this.sendFeedback(playMessage);
-            }).catch( (reason: string) => { this.sendFeedback(reason) });;
+            }).catch( (reason: string) => { this.sendFeedback(reason); });
         }
     }
 
     public Skip() {
-        if(this._queue.isEmpty()) {
+        if (this._queue.isEmpty()) {
             this.Stop();
             return;
         }
 
         this._manager.stop()
-        .catch( (reason: string) => { this.sendFeedback(reason) });
+        .catch( (reason: string) => { this.sendFeedback(reason); });
     }
 
     public Stop() {
         this._manager.stop()
         .then( (message) => {
             this.sendFeedback("Playback stopped");
-        }).catch( (reason: string) => { this.sendFeedback(reason) });
+        }).catch( (reason: string) => { this.sendFeedback(reason); });
     }
 
     public Join(channel: VoiceChannel) {
@@ -103,7 +124,7 @@ export class ServedGuild {
         this._manager.join(this._boundVoiceChannel!)
         .then( (joinMessage) => {
             this.sendFeedback("Joined " + channel.toString() + " and set as bound voice channel");
-        }).catch( (reason: string) => { this.sendFeedback(reason) });
+        }).catch( (reason: string) => { this.sendFeedback(reason); });
     }
 
     public Leave() {
@@ -111,7 +132,7 @@ export class ServedGuild {
             this.sendFeedback("Not in a channel");
             return;
         }
-        
+
         let channel = this._manager.voiceChannel;
         this._manager.leave().catch(console.error);
         this.sendFeedback("Left " + channel!.toString());
@@ -121,7 +142,7 @@ export class ServedGuild {
         let info = "The following sounds are in the queue:";
         let queueMembers = this._queue.toArray();
 
-        for(let i = 0; i < queueMembers.length; i++) {
+        for (let i = 0; i < queueMembers.length; i++) {
             info += "\n\n" + (i + 1) + ". " + queueMembers[i].toString();
         }
 
@@ -170,8 +191,6 @@ export class ServedGuild {
         return this._id;
     }
 
-    private _boundVoiceChannel?: VoiceChannel;
-
     get BoundVoiceChannel(): VoiceChannel | undefined {
         return this._boundVoiceChannel;
     }
@@ -182,8 +201,6 @@ export class ServedGuild {
             this.saveState();
     }
 
-    private _feedbackChannel?: TextChannel;
-
     get FeedbackChannel(): TextChannel | undefined {
         return this._feedbackChannel;
     }
@@ -192,25 +209,6 @@ export class ServedGuild {
         this._feedbackChannel = value;
         if (ServedGuild.guildMap.has(this._id))
             this.saveState();
-    }
-
-    public static GetServerdGuild(client: Client, id: string): ServedGuild {
-        if(!ServedGuild.guildMap.has(id)) {
-            ServedGuild.guildMap.set(id, new ServedGuild(client, id));
-        }
-
-        return ServedGuild.guildMap.get(id)!;
-    }
-
-    public static LoadSaveState(state: ServedGuildSaveState, client: Client) {
-        if(!ServedGuild.guildMap.has(state.Id)) {
-            let sGuild = new ServedGuild(client, state.Id);
-            if (state.BoundVoiceChannelId !== undefined)
-                sGuild.BoundVoiceChannel = client.channels.get(state.BoundVoiceChannelId) as VoiceChannel;
-            if (state.FeedbackChannelId !== undefined)
-                sGuild.FeedbackChannel = client.channels.get(state.FeedbackChannelId) as TextChannel;
-            ServedGuild.guildMap.set(state.Id, sGuild);
-        }
     }
 }
 

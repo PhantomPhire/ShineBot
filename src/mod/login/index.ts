@@ -32,7 +32,7 @@ function attemptLogin() {
         else {
             console.log("login successful");
         }
-    }, 10000);
+    },         10000);
 }
 
 function waitThenLogin() {
@@ -45,5 +45,5 @@ function waitThenLogin() {
             console.log("Status: " + bot.status + "\nStill waiting");
             bot.emit("WaitAttempt");
         }
-    }, 10000);
+    },         10000);
 }
