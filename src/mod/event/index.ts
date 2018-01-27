@@ -27,7 +27,7 @@ export function injectBot(injectedBot: CommandoClient) {
 
         setTimeout(() => {
             member.addRole(regionlessRole);
-        }, 4000);
+        },         4000);
     });
 
     // Naughty word parsing
@@ -48,8 +48,7 @@ export function injectBot(injectedBot: CommandoClient) {
             message.delete().catch(console.log);
         }
         else if (msg.indexOf("nig" + "ga") > -1) {
-            message.member.addRole("325090806048358400").catch(console.log);
-            message.delete().catch(console.log);
+            message.member.addRole("").catch(console.log);
         }
     });
 }

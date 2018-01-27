@@ -7,6 +7,11 @@ const musicalEmoji = " :musical_note: ";
 
 export class GuildVoiceStateManager extends EventEmitter {
     private _client: Client;
+    private _status: VoiceStatus;
+    private _voiceChannel: VoiceChannel | undefined;
+    private _currentSound: Sound | undefined;
+    private _connection: VoiceConnection | undefined;
+
     constructor(client: Client) {
         super();
         this._client = client;
@@ -82,20 +87,16 @@ export class GuildVoiceStateManager extends EventEmitter {
             this._status = VoiceStatus.Disconnected;
             return;
         }
-        
+
         if (this.currentSound === undefined)
             this._status = VoiceStatus.Waiting;
         else
             this._status = VoiceStatus.Playing;
     }
 
-    private _status: VoiceStatus;
-
     get status() {
         return this._status;
     }
-
-    private _voiceChannel: VoiceChannel | undefined;
 
     get voiceChannel() {
         return this._voiceChannel;
@@ -104,8 +105,6 @@ export class GuildVoiceStateManager extends EventEmitter {
     set voiceChannel(value) {
         this._voiceChannel = value;
     }
-
-    private _currentSound: Sound | undefined;
 
     private get currentSound(): Sound | undefined {
         return this._currentSound;
@@ -116,10 +115,8 @@ export class GuildVoiceStateManager extends EventEmitter {
         this.evaluateStatus();
     }
 
-    private _connection: VoiceConnection | undefined;
-
     private get connection(): VoiceConnection | undefined {
-        if(this._connection === undefined) {
+        if (this._connection === undefined) {
             this._currentSound = undefined;
         }
 

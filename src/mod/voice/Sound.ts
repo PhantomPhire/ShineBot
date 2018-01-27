@@ -1,7 +1,7 @@
 import {StreamDispatcher, VoiceConnection} from "discord.js";
 import {EventEmitter} from "events";
 
-export abstract class Sound extends EventEmitter{
+export abstract class Sound extends EventEmitter {
     public constructor() {
         super();
     }

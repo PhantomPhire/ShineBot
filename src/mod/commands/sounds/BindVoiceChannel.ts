@@ -1,7 +1,7 @@
 import {Command, CommandoClient, CommandMessage} from "discord.js-commando";
 import {Message} from "discord.js";
-import {ServedGuild, VoiceMode} from "../../voice";
-import util = require("../../voice/SoundUtil");
+import {ServedGuild} from "../../voice";
+import util = require("../../voice/soundUtil");
 
 class BindChannel extends Command {
     constructor(client: CommandoClient) {
