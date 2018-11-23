@@ -4,23 +4,18 @@
   "description": "A Discord bot tailored to the Oklahoma Melee Scene.",
   "main": "shineBot.js",
   "dependencies": {
-    "datastructures-js": "^3.1.0",
-    "discord-emoji": "^1.1.1",
     "discord.js": "^11.4.2",
     "discord.js-commando": "^0.8.5",
-    "express": "^4.16.4",
     "ffmpeg.js": "^3.1.9001",
     "node-gyp": "^3.8.0",
     "opus.js": "^0.1.1",
     "opusscript": "0.0.2",
     "random-js": "^1.0.8",
     "simple-youtube-api": "git+https://github.com/PhantomPhire/simple-youtube-api.git",
-    "socket.io": "^1.7.4",
     "ytdl-core": "^0.14.4"
   },
   "devDependencies": {
-    "@types/node": "^7.0.22",
-    "discord.js": "^11.4.2"
+    "@types/node": "^7.10.2"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
