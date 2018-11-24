@@ -1,1 +1,1 @@
-const bot = require("./dist");
+const bot = require("./dist/src");
