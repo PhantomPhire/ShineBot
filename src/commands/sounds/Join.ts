@@ -1,7 +1,7 @@
 import {Command, CommandoClient, CommandMessage} from "discord.js-commando";
-import {Message} from "discord.js";
-import {ServedGuild} from "../../voice";
-import util = require("../../voice/soundUtil");
+import {Message, VoiceChannel} from "discord.js";
+import {GuildAudioPlayer} from "../../../DiscordBotUtils/src/voice/GuildAudioPlayer";
+import {NameResolution} from "../../../DiscordBotUtils/src/NameResolution";
 
 class Join extends Command {
     constructor(client: CommandoClient) {
@@ -14,20 +14,28 @@ class Join extends Command {
     }
 
     hasPermission(msg: CommandMessage): boolean {
-        if (!msg.guild)
+        if (!msg.guild) {
             return false;
-		return msg.member.hasPermission("ADMINISTRATOR");
-	}
+        }
+        return msg.member.hasPermission("ADMINISTRATOR");
+    }
 
     async run(msg: CommandMessage, args: string, fromPattern: boolean): Promise<Message | Message[] | void> {
         let userArgs: string[] | undefined = args.split(" ");
 
-        let voiceChannel = util.findChannel(msg, userArgs);
+        let voiceChannel: VoiceChannel | undefined = undefined;
+        for (let i = 0; i < userArgs.length; i++) {
+            voiceChannel = NameResolution.commandMessageToVoiceChannel(userArgs[i], msg, msg.guild);
+            if (voiceChannel !== undefined) {
+                break;
+            }
+        }
+
         if (voiceChannel === undefined) {
             return msg.say("Error: No valid voice channel found");
         }
 
-        ServedGuild.GetServerdGuild(msg.client, msg.guild.id).Join(voiceChannel);
+        GuildAudioPlayer.getGuildAudioPlayer(msg.guild.id).join(voiceChannel);
     }
 }
 module.exports = Join;

@@ -1,7 +1,7 @@
 import {Command, CommandoClient, CommandMessage} from "discord.js-commando";
 import {GuildMember, Message, Role} from "discord.js";
-import regionManager = require("./regionManager");
-import getGuild = require("../../guild");
+import {RegionManager} from "./RegionManager";
+import {OklahomaMeleeDiscord} from "../../OklahomaMeleeDiscord";
 
 export class SetRegion extends Command {
     constructor(client: CommandoClient) {
@@ -23,14 +23,14 @@ export class SetRegion extends Command {
         else
             region = region.toLowerCase();
 
-        if (!regionManager.isRegion(region)) {
+        if (!RegionManager.validateRegion(region)) {
             return msg.reply(region + " is not a valid region", {});
         }
 
         let guild = undefined;
 
         if (msg.guild == null) {
-            guild = getGuild.getGuild();
+            guild = OklahomaMeleeDiscord.getGuild();
         }
         else {
             guild = msg.guild;
@@ -38,8 +38,8 @@ export class SetRegion extends Command {
 
         let roleToSet = guild!.roles.find( (r: Role) => r.name.toLowerCase() === region);
         guild!.fetchMember(msg.author)
-        .then((member) => {
-            let roles = member.roles.filterArray( (r: Role) => (regionManager.isRegion(r.name.toLowerCase()) || r.name === "Regionless"));
+        .then((member: GuildMember) => {
+            let roles = member.roles.filterArray( (r: Role) => (RegionManager.validateRegion(r.name.toLowerCase()) || r.name === "Regionless"));
 
             for (let i = 0; i < roles.length; i++) {
                 member.removeRole(roles[i].id)

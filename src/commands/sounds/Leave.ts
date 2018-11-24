@@ -1,6 +1,6 @@
 import {Command, CommandoClient, CommandMessage} from "discord.js-commando";
 import {Message} from "discord.js";
-import {ServedGuild, VoiceMode} from "../../voice";
+import {GuildAudioPlayer} from "../../../DiscordBotUtils/src/voice/GuildAudioPlayer";
 
 class Leave extends Command {
     constructor(client: CommandoClient) {
@@ -13,13 +13,14 @@ class Leave extends Command {
     }
 
     hasPermission(msg: CommandMessage): boolean {
-        if (!msg.guild)
+        if (!msg.guild) {
             return false;
-		return msg.member.hasPermission("ADMINISTRATOR");
-	}
+        }
+        return msg.member.hasPermission("ADMINISTRATOR");
+    }
 
     async run(msg: CommandMessage, args: string, fromPattern: boolean): Promise<Message | Message[] | void> {
-        ServedGuild.GetServerdGuild(msg.client, msg.guild.id).Leave();
+        GuildAudioPlayer.getGuildAudioPlayer(msg.guild.id).leave();
     }
 }
 module.exports = Leave;

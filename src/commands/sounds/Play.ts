@@ -1,6 +1,6 @@
 import {Command, CommandoClient, CommandMessage} from "discord.js-commando";
 import {Message} from "discord.js";
-import {ServedGuild} from "../../voice";
+import {GuildAudioPlayer} from "../../../DiscordBotUtils/src/voice/GuildAudioPlayer";
 
 class Play extends Command {
     constructor(client: CommandoClient) {
@@ -13,13 +13,14 @@ class Play extends Command {
     }
 
     hasPermission(msg: CommandMessage): boolean {
-        if (!msg.guild)
+        if (!msg.guild) {
             return false;
-		return msg.member.hasPermission("ADMINISTRATOR");
-	}
+        }
+        return msg.member.hasPermission("ADMINISTRATOR");
+    }
 
     async run(msg: CommandMessage, args: string, fromPattern: boolean): Promise<Message | Message[] | void> {
-        ServedGuild.GetServerdGuild(msg.client, msg.guild.id).play();
+        GuildAudioPlayer.getGuildAudioPlayer(msg.guild.id).play();
     }
 }
 module.exports = Play;

@@ -1,6 +1,6 @@
 import {Command, CommandoClient, CommandMessage} from "discord.js-commando";
 import {Message} from "discord.js";
-import regionManager = require("./regionManager");
+import {RegionManager} from "./RegionManager";
 
 export class GetRegion extends Command {
     constructor(client: CommandoClient) {
@@ -14,7 +14,7 @@ export class GetRegion extends Command {
     }
 
     async run(msg: CommandMessage, args: string, fromPattern: boolean): Promise<Message | Message[] | void> {
-        let regions = regionManager.getRegionList();
+        let regions = RegionManager.regions;
         let regionPrint = "";
 
         for (let i = 0; i < regions.length; i++) {

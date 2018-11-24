@@ -1,6 +1,6 @@
 import {Command, CommandoClient, CommandMessage} from "discord.js-commando";
-import {Collection, Guild, Message, TextChannel} from "discord.js";
-import getGuild = require("../../guild");
+import {Guild, Message} from "discord.js";
+import {OklahomaMeleeDiscord} from "../../OklahomaMeleeDiscord";
 
 export class Color extends Command {
     constructor(client: CommandoClient) {
@@ -12,18 +12,18 @@ export class Color extends Command {
         });
     }
 
-    hasPermission(msg: CommandMessage): boolean {
+    public hasPermission(msg: CommandMessage): boolean {
         let guild: Guild | undefined = msg.guild;
         if (msg.guild == null)
-            guild = getGuild.getGuild();
+            guild = OklahomaMeleeDiscord.getGuild();
         return guild!.member(msg.author).roles.has(guild!.roles.find("name", "Power Ranked").id);
     }
 
-    async run(msg: CommandMessage, args: string, fromPattern: boolean): Promise<Message | Message[] | void> {
+    public async run(msg: CommandMessage, args: string, fromPattern: boolean): Promise<Message | Message[] | void> {
         try {
             let guild: Guild | undefined = msg.guild;
             if (msg.guild == null)
-                guild = getGuild.getGuild();
+                guild = OklahomaMeleeDiscord.getGuild();
             for (let i = 1; i <= 10; i++) {
                 let role = guild!.roles.find("name", "PR #" + i);
                 if (role != null && guild!.member(msg.author).roles.has(role.id)) {

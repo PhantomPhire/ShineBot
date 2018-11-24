@@ -1,8 +1,7 @@
 import {Command, CommandoClient, CommandMessage} from "discord.js-commando";
 import {GuildMember, Message} from "discord.js";
-import getGuild = require("../../guild");
-
-const netplayId = "312278623887294484";
+import {OklahomaMeleeDiscord} from "../../OklahomaMeleeDiscord";
+import {ShineBotConstants} from "../../Constants";
 
 export class Netplay extends Command {
     constructor(client: CommandoClient) {
@@ -17,11 +16,11 @@ export class Netplay extends Command {
     }
 
     async run(msg: CommandMessage, args: string, fromPattern: boolean): Promise<Message | Message[] | void> {
-        let guild = getGuild.getGuild();
+        let guild = OklahomaMeleeDiscord.getGuild();
         args = args.toLowerCase().trim();
         guild!.fetchMember(msg.author)
-        .then((member) => {
-            let hasRole = member.roles.has(netplayId);
+        .then((member: GuildMember) => {
+            let hasRole = member.roles.has(ShineBotConstants.netplayRole);
 
             if (args === "on") {
                 if (!hasRole) {
@@ -51,12 +50,12 @@ export class Netplay extends Command {
     }
 
     private addNetplay(member: GuildMember, msg: CommandMessage): void {
-        member.addRole(netplayId);
+        member.addRole(ShineBotConstants.netplayRole);
         msg.reply("Netplay role added.", {});
     }
 
     private removeNetplay(member: GuildMember, msg: CommandMessage): void {
-        member.removeRole(netplayId);
+        member.removeRole(ShineBotConstants.netplayRole);
         msg.reply("Netplay role removed.", {});
     }
 }

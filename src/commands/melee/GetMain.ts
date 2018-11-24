@@ -1,6 +1,6 @@
 import {Command, CommandoClient, CommandMessage} from "discord.js-commando";
 import {Message} from "discord.js";
-import regionManager = require("./mainManager");
+import {MainManager} from "./mainManager";
 
 export class GetMain extends Command {
     constructor(client: CommandoClient) {
@@ -14,7 +14,7 @@ export class GetMain extends Command {
     }
 
     async run(msg: CommandMessage, args: string, fromPattern: boolean): Promise<Message | Message[] | void> {
-        let mains = regionManager.getMainList();
+        let mains = MainManager.mains;
         let mainPrint = "";
 
         for (let i = 0; i < mains.length; i++) {

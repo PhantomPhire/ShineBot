@@ -1,7 +1,7 @@
 import {Command, CommandoClient, CommandMessage} from "discord.js-commando";
 import {GuildMember, Message, Role} from "discord.js";
-import meleeManager = require("./mainManager");
-import getGuild = require("../../guild");
+import {MainManager} from "./MainManager";
+import {OklahomaMeleeDiscord} from "../../OklahomaMeleeDiscord";
 
 export class SetMain extends Command {
     constructor(client: CommandoClient) {
@@ -16,29 +16,29 @@ export class SetMain extends Command {
     }
 
     async run(msg: CommandMessage, args: string, fromPattern: boolean): Promise<Message | Message[] | void> {
-        let character = meleeManager.formatString(args).trim();
+        let character = MainManager.getFormattedMainString(args).trim();
 
         if (character === undefined || character === "") {
             return msg.reply("please provide a Melee character as a parameter.");
         }
 
-        if (!meleeManager.isMain(character)) {
+        if (!MainManager.validateMain(character)) {
             return msg.reply(character + " is not a valid Melee character");
         }
 
         let guild = undefined;
 
         if (msg.guild == null) {
-            guild = getGuild.getGuild();
+            guild = OklahomaMeleeDiscord.getGuild();
         }
         else {
             guild = msg.guild;
         }
 
-        let possibleRoles = guild!.roles.filterArray( (r: Role) => (meleeManager.formatString(r.name) === character && meleeManager.isMain(r.name)));
+        let possibleRoles = guild!.roles.filterArray( (r: Role) => (MainManager.getFormattedMainString(r.name) === character && MainManager.validateMain(r.name)));
 
         if (possibleRoles.length < 1)
-            possibleRoles = guild!.roles.filterArray( (r: Role) => (meleeManager.formatString(r.name).includes(character) && meleeManager.isMain(r.name)));
+            possibleRoles = guild!.roles.filterArray( (r: Role) => (MainManager.getFormattedMainString(r.name).includes(character) && MainManager.validateMain(r.name)));
 
         if (possibleRoles.length > 1) {
             return msg.say("Ambiguous input");

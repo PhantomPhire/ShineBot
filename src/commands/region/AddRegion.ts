@@ -1,7 +1,7 @@
 import {Command, CommandoClient, CommandMessage} from "discord.js-commando";
 import {Message} from "discord.js";
+import {RegionManager} from "./RegionManager";
 import fs = require("fs");
-import regionManager = require("./regionManager");
 
 export class AddRegion extends Command {
     constructor(client: CommandoClient) {
@@ -24,7 +24,7 @@ export class AddRegion extends Command {
             if (err)
                 throw err;
             else
-                regionManager.readIn();
+                RegionManager.initialize();
         });
 
         return msg.say("Region added", {});

@@ -1,16 +1,14 @@
 import * as config from "../../../../config.json";
 import {Command, CommandoClient, CommandMessage} from "discord.js-commando";
 import {Message, TextChannel} from "discord.js";
-import {ServedGuild} from "../../voice";
-import {YouTubeSound} from "../../voice";
-import sounds = require("../../voice");
+import {GuildAudioPlayer} from "../../../DiscordBotUtils/src/voice/GuildAudioPlayer";
+import {YouTubeSound} from "../../../DiscordBotUtils/src/voice/YouTubeSound";
 import {YouTube, Video} from "simple-youtube-api";
-import util = require("../../voice/soundUtil");
 
 const maxResults = 3;
 
 class PlayYouTube extends Command {
-    private _yt: YouTube;
+    //private _yt: YouTube;
 
     constructor(client: CommandoClient) {
         super(client, {
@@ -20,26 +18,27 @@ class PlayYouTube extends Command {
             aliases: ["yt"],
             description: "Plays audio from YouTube."
         });
-        this._yt = new YouTube((<any>config).ytApiKey);
+        //this._yt = new YouTube((<any>config).ytApiKey);
     }
 
     hasPermission(msg: CommandMessage): boolean {
-        if (!msg.guild)
+        if (!msg.guild) {
             return false;
-		return msg.member.hasPermission("ADMINISTRATOR");
-	}
+        }
+        return msg.member.hasPermission("ADMINISTRATOR");
+    }
 
     async run(msg: CommandMessage, args: string, fromPattern: boolean): Promise<Message | Message[] | void> {
-        let userArgs: string[] | undefined = args.split(" ");
+        /*let userArgs: string[] | undefined = args.split(" ");
 
         if (userArgs[0] == "")
             return msg.say("Need arguments", {});
 
-        let sGuild = ServedGuild.GetServerdGuild(msg.client, msg.guild.id);
+        let sGuild = GuildAudioPlayer.getGuildAudioPlayer(msg.guild.id);
 
         this._yt.getVideo(args)
         .then( (video: Video) => {
-            sGuild.Add(new YouTubeSound(video.url, video.title));
+            sGuild.add(new YouTubeSound(video.url));
         })
         .catch( () => {
             console.log("This is not a video.");
@@ -69,11 +68,11 @@ class PlayYouTube extends Command {
                 .then( (value) => {
                     let index = parseInt(value.first().content);
                     if (index > 0 && index <= resultsNum) {
-                        sGuild.Add(new YouTubeSound(vids[index - 1].url, vids[index - 1].title));
+                        sGuild.add(new YouTubeSound(vids[index - 1].url));
                     }
                 }).catch(console.error);
             }).catch(console.error);
-        });
+        });*/
     }
 }
 

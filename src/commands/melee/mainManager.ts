@@ -1,21 +1,46 @@
-import {Role} from "discord.js";
-import fs = require("fs");
+import {ShineBotConstants} from "../../Constants";
 
-let mains: string[];
-readIn();
+/**
+ * A static repository for holding main names for ShineBot
+ */
+export abstract class MainManager {
+    /**
+     * The collection of mains.
+     */
+    private static _mains: Array<string> = [];
 
-export function readIn() {
-    mains = require(__dirname + "/../../../../assets/mains.json") as string[];
-}
+    /**
+     * Gets the full list of mains
+     */
+    public static get mains(): Array<string> {
+        // Copies the array to avoid mutation by other classes
+        let mainsCopy: string[] = [];
+        for (let i = 0; i < MainManager._mains.length; i++) {
+            mainsCopy[i] = MainManager._mains[i];
+        }
+        return mainsCopy;
+    }
 
-export function isMain(input: string): boolean {
-    return (mains.find( name => formatString(name).includes(formatString(input)) ) !== undefined);
-}
+    /**
+     * Initializes the region list.
+     */
+    public static initialize() {
+        MainManager._mains = require(ShineBotConstants.assetPath + "mains.json") as Array<string>;
+    }
 
-export function getMainList(): string[] {
-    return mains;
-}
+    /**
+     * Validates that a string matches up with a main on the main list.
+     * @param potentialRegion The name to test as a main.
+     */
+    public static validateMain(potentialMain: string): boolean {
+        return (MainManager._mains.find( (name: string) => name.toLowerCase() === potentialMain.toLowerCase() ) !== undefined);
+    }
 
-export function formatString(input: string): string {
-    return input.toLowerCase().replace(/\./g, "");
+    /**
+     * Formats input to match up with a min string
+     * @param input The input to format.
+     */
+    public static getFormattedMainString(input: string): string {
+        return input.toLowerCase().replace(/\./g, "");
+    }
 }
