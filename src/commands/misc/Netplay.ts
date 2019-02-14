@@ -39,7 +39,7 @@ export class Netplay extends Command {
                 }
             }
             else {
-                if (hasRole) {
+                if (!hasRole) {
                     this.addNetplay(member, msg);
                 }
                 else {
@@ -51,12 +51,12 @@ export class Netplay extends Command {
 
     private addNetplay(member: GuildMember, msg: CommandMessage): void {
         member.addRole(ShineBotConstants.netplayRole);
-        msg.reply("Netplay role added.", {});
+        msg.reply("Netplay role added.");
     }
 
     private removeNetplay(member: GuildMember, msg: CommandMessage): void {
         member.removeRole(ShineBotConstants.netplayRole);
-        msg.reply("Netplay role removed.", {});
+        msg.reply("Netplay role removed.");
     }
 }
 module.exports = Netplay;
