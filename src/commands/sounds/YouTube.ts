@@ -1,8 +1,7 @@
 import * as config from "../../../../config.json";
 import {Command, CommandoClient, CommandMessage} from "discord.js-commando";
 import {Message, TextChannel} from "discord.js";
-import {GuildAudioPlayer} from "../../../DiscordBotUtils/src/voice/GuildAudioPlayer";
-import {YouTubeSound} from "../../../DiscordBotUtils/src/voice/YouTubeSound";
+import {GuildAudioPlayer, YouTubeSound} from "../../../DiscordBotUtils";
 import {YouTube, Video} from "simple-youtube-api";
 
 const maxResults = 3;

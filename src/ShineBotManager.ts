@@ -1,28 +1,16 @@
 import * as config from "../../config.json";
 import {Message, GuildMember} from "discord.js";
 import {CommandoClient} from "discord.js-commando";
-import {LoginManager} from "../DiscordBotUtils/src/LoginManager";
-import {ClientAccess} from "../DiscordBotUtils/src/ClientAccess";
-import {RegionManager} from "./commands/region/RegionManager";
-import {MainManager} from "./commands/melee/MainManager";
-import {GuildAudioPlayer} from "../DiscordBotUtils/src/voice/GuildAudioPlayer";
+import {RegionManager} from "./utility/RegionManager";
+import {MainManager} from "./utility/MainManager";
+import {BotManager, GuildAudioPlayer} from "../DiscordBotUtils";
 import {ShineBotConstants} from "./Constants";
 import fs = require("fs");
 
 /**
  * A wrapper for the ShineBot, managing its events and internals
  */
-export class ShineBotManager {
-    /**
-     * The bot itself
-     */
-    private _bot: CommandoClient;
-
-    /**
-     * The login manager for keeping the bot online.
-     */
-    private _loginManager?: LoginManager;
-
+export class ShineBotManager extends BotManager {
     /**
      * The welcome message to send upon a new member joining the guild.
      */
@@ -32,8 +20,7 @@ export class ShineBotManager {
      * Initializes a new instance of the ShineBotManager class.
      */
     constructor() {
-        this._bot = new CommandoClient({ commandPrefix: (<any>config).prefix, owner: (<any>config).owner });
-        ClientAccess.initializeClient(this._bot);
+        super(new CommandoClient({ commandPrefix: (<any>config).prefix, owner: (<any>config).owner }));
         RegionManager.initialize();
         MainManager.initialize();
     }
@@ -42,7 +29,7 @@ export class ShineBotManager {
      * Executes the running for the bot.
      */
     public run() {
-        this._loginManager = new LoginManager(this._bot, (<any>config).token);
+        super.run((<any>config).token);
 
         this.setupEventListeners();
         this.initalizeWelcomeMessage();
@@ -62,7 +49,7 @@ export class ShineBotManager {
     private setupEventListeners() {
         // Add function for when bot is ready
         this._bot.on("ready", () => {
-            this._bot.user.setGame("Shining until you start crying.");
+            this._bot.user.setActivity("Shining until you start crying.");
             GuildAudioPlayer.loadPersistentGuilds();
         });
 

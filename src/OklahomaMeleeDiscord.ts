@@ -5,7 +5,7 @@
  */
 import {Guild} from "discord.js";
 import {ShineBotConstants} from "./Constants";
-import {ClientAccess} from "../DiscordBotUtils/src/ClientAccess";
+import {ClientAccess} from "../DiscordBotUtils";
 
 /**
  * A static container for access to the Oklahoma Melee Discord guild

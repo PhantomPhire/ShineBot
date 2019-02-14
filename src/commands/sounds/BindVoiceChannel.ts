@@ -1,7 +1,6 @@
 import {Command, CommandoClient, CommandMessage} from "discord.js-commando";
 import {Message, VoiceChannel} from "discord.js";
-import {GuildAudioPlayer} from "../../../DiscordBotUtils/src/voice/GuildAudioPlayer";
-import {NameResolution} from "../../../DiscordBotUtils/src/NameResolution";
+import {GuildAudioPlayer, NameResolution} from "../../../DiscordBotUtils";
 
 class BindChannel extends Command {
     constructor(client: CommandoClient) {

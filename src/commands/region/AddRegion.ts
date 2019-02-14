@@ -1,6 +1,6 @@
 import {Command, CommandoClient, CommandMessage} from "discord.js-commando";
 import {Message} from "discord.js";
-import {RegionManager} from "./RegionManager";
+import {RegionManager} from "../../utility/RegionManager";
 import fs = require("fs");
 
 export class AddRegion extends Command {

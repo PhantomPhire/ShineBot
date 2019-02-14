@@ -31,4 +31,10 @@ export abstract class ShineBotConstants {
      * @constant
      */
     public static readonly netplayRole: string = "312278623887294484";
+
+    /**
+     * Defines the id of the legacy role for Oklahoma Melee Discord
+     * @constant
+     */
+    public static readonly legacyRole: string = "544936579538616321";
 }

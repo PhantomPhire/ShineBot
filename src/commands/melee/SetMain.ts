@@ -1,6 +1,6 @@
 import {Command, CommandoClient, CommandMessage} from "discord.js-commando";
 import {GuildMember, Message, Role} from "discord.js";
-import {MainManager} from "./MainManager";
+import {MainManager} from "../../utility/MainManager";
 import {OklahomaMeleeDiscord} from "../../OklahomaMeleeDiscord";
 
 export class SetMain extends Command {
