@@ -38,7 +38,7 @@ export class Legacy extends Command {
                 }
             }
             else {
-                if (hasRole) {
+                if (!hasRole) {
                     this.addLegacy(member, msg);
                 }
                 else {
@@ -50,12 +50,12 @@ export class Legacy extends Command {
 
     private addLegacy(member: GuildMember, msg: CommandMessage): void {
         member.addRole(ShineBotConstants.legacyRole);
-        msg.reply("Legacy role added.", {});
+        msg.reply("Legacy role added.");
     }
 
     private removeLegacy(member: GuildMember, msg: CommandMessage): void {
         member.removeRole(ShineBotConstants.legacyRole);
-        msg.reply("Legacy role removed.", {});
+        msg.reply("Legacy role removed.");
     }
 }
 module.exports = Legacy;
