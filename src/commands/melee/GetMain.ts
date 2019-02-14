@@ -1,6 +1,6 @@
 import {Command, CommandoClient, CommandMessage} from "discord.js-commando";
 import {Message} from "discord.js";
-import {MainManager} from "./mainManager";
+import {MainManager} from "../../utility/MainManager";
 
 export class GetMain extends Command {
     constructor(client: CommandoClient) {

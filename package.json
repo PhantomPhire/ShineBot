@@ -10,7 +10,6 @@
     "node-gyp": "^3.8.0",
     "opus.js": "^0.1.1",
     "opusscript": "0.0.2",
-    "random-js": "^1.0.8",
     "simple-youtube-api": "git+https://github.com/PhantomPhire/simple-youtube-api.git",
     "ytdl-core": "^0.14.4"
   },

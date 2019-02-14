@@ -1,6 +1,6 @@
 import {Command, CommandoClient, CommandMessage} from "discord.js-commando";
 import {Message} from "discord.js";
-import {GuildAudioPlayer} from "../../../DiscordBotUtils/src/voice/GuildAudioPlayer";
+import {GuildAudioPlayer} from "../../../DiscordBotUtils";
 
 class Playlist extends Command {
     constructor(client: CommandoClient) {

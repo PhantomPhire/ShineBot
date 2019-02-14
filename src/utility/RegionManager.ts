@@ -1,4 +1,4 @@
-import {ShineBotConstants} from "../../Constants";
+import {ShineBotConstants} from "../Constants";
 
 /**
  * A static repository for holding region names for ShineBot

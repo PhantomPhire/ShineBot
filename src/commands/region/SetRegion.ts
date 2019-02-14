@@ -1,6 +1,6 @@
 import {Command, CommandoClient, CommandMessage} from "discord.js-commando";
 import {GuildMember, Message, Role} from "discord.js";
-import {RegionManager} from "./RegionManager";
+import {RegionManager} from "../../utility/RegionManager";
 import {OklahomaMeleeDiscord} from "../../OklahomaMeleeDiscord";
 
 export class SetRegion extends Command {
